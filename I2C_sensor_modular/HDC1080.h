@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include "ClosedCube_HDC1080.h"
 
 #define HDC1080ADD 0x40
@@ -25,4 +24,5 @@ float readHDC1080Humidity()
   humid = hdc.readHumidity();
   return humid;
 }
+
 

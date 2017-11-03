@@ -14,6 +14,8 @@ char node_id[] = "24";
 char tempString[6];
 char humidityString[6];
 char vccString[5];
+char co2String[7];
+char tvocString[7];
 char result[32];
 
 struct data_to_be_send {
@@ -21,6 +23,8 @@ struct data_to_be_send {
   float temperatureData = 0.0;
   float humidityData = 0.0;
   float battery_voltage = 0.0;
+  int CO2Data = 0;
+  int TVOCData = 0;
 } data;
 
 int failCount = 0;
@@ -36,4 +40,5 @@ void radio_init()
   radio.openWritingPipe(wAddress);
   radio.stopListening();
 }
+
 

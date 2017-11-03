@@ -1,4 +1,4 @@
-#include <Wire.h>
+
 
 #define ADT7420Address 0x48
 #define ADT7420TempReg 0x00
@@ -39,3 +39,4 @@ float readADT7420()
 
   return temp;
 }
+
