@@ -1,14 +1,14 @@
 #include <avr/sleep.h>
 #include <avr/wdt.h>
-#include <Wire.h>
 #include "radio.h"
+#include "ClosedCube_HDC1080.h" // Library for HDC1080 temperature and humidity sensor
 #include "ADT7420.h"
 #include "battery_monitor.h"
-//#include "HDC1080.h"
+#include "HDC1080.h"
 #include "CCS811.h"
 
 // Serial print compiler directive
-#define SERIAL_PRINT 1
+#define SERIAL_PRINT 1  // Comment this to remove the Serial.print from the code(Do it once the program is finalize)
 #ifdef SERIAL_PRINT
 #define _SER_BEGIN(x) Serial.begin(x)
 #define _SER_PRINT(x) Serial.print(x)
@@ -23,15 +23,28 @@
 
 #define PWR_DWN_DELAY_SEC 60 // Delay for sleep mode in seconds( Min delay is 2 Seconds)
 
-int sensorAddress[] = {72, 64, 90};
+int sensorAddress[] = {72, 64, 90}; // Contains the I2C address of the sensors
 
+// Enumerator to keep the list of the sensors. They are added according to their addresses
+enum sensorEnum {
+  ADT7420,
+  HDC1080,
+  CCS811,
+  unknown
+};
+sensorEnum sensor = unknown;
+
+byte error; // Stores the error generated during I2C communication
+
+//If the particular sensor is connected then than sensorID gets the value 1
+int sensorID[] = {0, 0, 0};
+
+// Function to write over the nRF24L01+
 int radioWrite()
 {
-  //Serial.println("Inside radio write");
   //while (!radio.write(&data, sizeof(data)))
   while (!radio.write(&result, sizeof(result)))
   {
-    //Serial.println("Inside while");
     if (failCount >= 20)
     {
       failCount = 0;
@@ -44,17 +57,7 @@ int radioWrite()
   }
 }
 
-enum sensorEnum {
-  ADT7420,
-  HDC1080,
-  CCS811,
-  unknown
-};
-
-sensorEnum sensor = unknown;
-
-byte error;
-
+// The function puts the microcontroller in the WATHCDOG TIMER SLEEP mode for the particular time
 void delayWDT(byte timer)
 {
   sleep_enable();
@@ -69,6 +72,7 @@ void delayWDT(byte timer)
   ADCSRA |= (1 << ADEN);
 }
 
+// Interrupt service router to get out of the sleep mode
 ISR(WDT_vect)
 {
   wdt_disable();
@@ -86,6 +90,7 @@ void setup()
 
   wdt_disable();
 
+  // Scans the given I2C address and if the device is found, the particular bit is made HIGH
   _SER_PRINT("Scanning....");
   for (int i = 0; i < 3 ; i++)
   {
@@ -94,52 +99,49 @@ void setup()
 
     if (error == 0)
     {
-      sensor = i;
+      sensorID[i] = 1;
     }
   }
   _SER_PRINT("I2C Device found at address ");
   _SER_PRINT(sensor);
   _SER_PRINTLN();
 
-  //if (sensor == HDC1080) hdc_init();
-  if (sensor == CCS811) ccs811_init();
+  // Initialization of the sensors
+  if (sensorID[1] == 1) hdc_init();
+  if (sensorID[2] == 1) ccs_init();
 }
 
 void loop()
 {
-  if (sensor == ADT7420)
+  if (sensorID[0] == 1)
   {
     data.temperatureData = readADT7420();
     data.humidityData = 0.0;
   }
-  /*
-    if (sensor == HDC1080)
-    {
+  if (sensorID[1] == 1)
+  {
     data.temperatureData = readHDC1080Temp();
     data.humidityData = readHDC1080Humidity();
-    }
-  */
-  if (sensor == CCS811)
-  {
-    data.CO2Data = readccsCO2();
-    data.TVOCData = readccsTVOC();
   }
-  else
+  if (sensorID[2] == 1)
   {
-    _SER_PRINTLN("UNABLE TO FIND THE SENSOR");
+    int *sensedData;
+    sensedData = CCS811Data();
+    data.co2Data = sensedData[0];
+    data.tvocData = sensedData[1];
   }
+
   data.battery_voltage = readVcc();
 
-  //dtostrf(data.temperatureData, 6, 3, tempString);
-  //dtostrf(data.humidityData, 5, 2, humidityString);
-  //dtostrf(data.battery_voltage, 4, 2, vccString);
-  //  dtostrf(data.CO2Data, 7, 2, co2String);
-  //  dtostrf(data.TVOCData, 7, 2, tvocString);
-  delay(10);
-  itoa(data.CO2Data, co2String, 10);
-  itoa(data.TVOCData, tvocString, 10);
-
-  delay(20);
+  dtostrf(data.temperatureData, 6, 3, tempString);
+  dtostrf(data.humidityData, 5, 2, humidityString);
+  dtostrf(data.battery_voltage, 4, 2, vccString);
+  if (sensorID[2] == 1)
+  {
+    itoa(data.co2Data, co2String, 10);
+    itoa(data.tvocData, tvocString, 10);
+    delay(20);
+  }
 
   strcpy(result, node_id);
   strcat(result, ",");
@@ -147,31 +149,27 @@ void loop()
   strcat(result, ",");
   strcat(result, humidityString);
   strcat(result, ",");
+  if (sensorID[2] == 1)
+  {
+    strcat(result, co2String);
+    strcat(result, ",");
+    strcat(result, tvocString);
+    strcat(result, ",");
+  }
   strcat(result, vccString);
-  strcat(result, ",");
-  strcat(result, co2String);
-  strcat(result, ",");
-  strcat(result, tvocString);
 
-  //  _SER_PRINT(data.node_id);
-  //  _SER_PRINT(",");
-  //  _SER_PRINT(data.temperatureData);
-  //  _SER_PRINT(",");
-  //  _SER_PRINT(data.humidityData);
-  //  _SER_PRINT(",");
-  //  _SER_PRINTLN(data.battery_voltage);
   _SER_PRINTLN(result);
 
   _DELAY(100);
 
-  radioWrite();
+  //radioWrite();
 
   _DELAY(30);
   _SER_PRINTLN();
   _DELAY(30);
+  
   for (int i = 0; i < (PWR_DWN_DELAY_SEC / 2); i++)
   {
     delayWDT(WDTO_2S);
   }
 }
-

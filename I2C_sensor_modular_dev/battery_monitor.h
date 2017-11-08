@@ -1,3 +1,5 @@
+
+
 float readVcc()
 {
   float internalRef = 1.1;
@@ -20,4 +22,3 @@ float readVcc()
 
   return batVoltage;
 }
-

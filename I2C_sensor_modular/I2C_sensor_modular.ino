@@ -75,7 +75,7 @@ ISR(WDT_vect)
 
 void setup()
 {
-  _SER_BEGIN(9600);
+  _SER_BEGIN(115200);
   _SER_PRINT("____I2C SENSOR NODES____");
 
   Wire.begin();

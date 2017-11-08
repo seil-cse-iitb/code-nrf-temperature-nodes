@@ -1,29 +1,30 @@
 #include "Adafruit_CCS811.h"
 
-#define CCS811_ADD 0x5A
-
 Adafruit_CCS811 ccs;
 
-void ccs811_init()
-{
- ccs.begin(); 
-}
+char co2String[6];
+char tvocString[6];
 
-int readCCS811Eco2()
+int sensorData[2];
+
+int* CCS811Data()
 {
-  if(ccs.available())
+  while (ccs.available())
   {
-    if(!ccs.readData())
+    if (!ccs.readData())
     {
-      int eCO2 = ccs.geteCO2();
-      return eCO2;
+      sensorData[0] = ccs.geteCO2();
+      sensorData[1] = ccs.getTVOC();
+
+      return sensorData;
     }
   }
 }
 
-int readCCS811Tvoc()
-{
-  if (ccs.available())
+/*
+  int tvocData()
+  {
+  while(ccs.available())
   {
     if(!ccs.readData())
     {
@@ -31,4 +32,11 @@ int readCCS811Tvoc()
       return tvoc;
     }
   }
+  }
+*/
+
+void ccs_init()
+{
+  //Serial.println("Initializing CCS811");
+  ccs.begin();
 }

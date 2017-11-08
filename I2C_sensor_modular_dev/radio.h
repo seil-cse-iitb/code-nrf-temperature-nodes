@@ -9,13 +9,12 @@ RF24 radio(pinCE, pinCSN);
 //const uint64_t wAddress = 0x00001E5000LL;  // lab        // Radio pipe addresses for the 2 nodes to communicate.
 //const uint64_t wAddress = 0x00001F5000LL;   //classroom
 const uint64_t wAddress = 0x00001E6000LL;   // Server room
+///const uint64_t wAddress = 0x  // Lecture Hall Complex
 
-char node_id[] = "24";
+char node_id[] = "27";
 char tempString[6];
 char humidityString[6];
 char vccString[5];
-char co2String[7];
-char tvocString[7];
 char result[32];
 
 struct data_to_be_send {
@@ -23,8 +22,8 @@ struct data_to_be_send {
   float temperatureData = 0.0;
   float humidityData = 0.0;
   float battery_voltage = 0.0;
-  long int CO2Data = 0.0;
-  long int TVOCData = 0.0;
+  int co2Data = 0;
+  int tvocData = 0;
 } data;
 
 int failCount = 0;
@@ -40,5 +39,4 @@ void radio_init()
   radio.openWritingPipe(wAddress);
   radio.stopListening();
 }
-
 
