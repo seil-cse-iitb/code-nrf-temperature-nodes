@@ -36,9 +36,7 @@ const uint64_t wAddress_lab = 0x00001E5000LL;  // lab nrf address           // R
 const uint64_t wAddress_SIC305 = 0x00001F5000LL;   //SIC305 nrf address
 const uint64_t wAddress_lecture_hall = 0x00001E6000LL; //lecture_hall nrf address
 
-//const uint64_t rAddress = wAddress_lab;
-//const uint64_t rAddress = wAddress_SIC305;
-const uint64_t rAddress = wAddress_lecture_hall;
+const uint64_t rAddress = wAddress_lab;
 
 bool received = false;
 //char temperatureString[6];
@@ -79,20 +77,19 @@ const char* password = "deadlock123";
 
 float prev_temp = 0.0 ;
 
-const char* mqtt_server = "10.129.23.41";  //production machine
-// const char* mqtt_server = "10.129.23.30";  //uddhav's machine
-// const char* mqtt_server = "192.168.0.101";   //local network of router
+const char* mqtt_server = "10.129.149.9";  //production machine
 const char* mqtt_username = "<MQTT_BROKER_USERNAME>";
 const char* mqtt_password = "<MQTT_BROKER_PASSWORD>";
 
 // const char* mqtt_topic = "data/kresit/dht/SEIL"; //test
 //const char* mqtt_topic = "nodemcu/kresit/dht/FCK"; //production
 //const char* mqtt_topic = "nodemcu/kresit/dht/sic305"; //classroom
-//const char* mqtt_topic = "nodemcu/kresit/dht/SEIL"; //LAB
-const char* mqtt_topic = "nodemcu/kresit/dht/lecture_hall"; //lecture_hall
+const char* mqtt_topic = "nodemcu/kresit/dht/SEIL"; //LAB
+//const char* mqtt_topic = "nodemcu/kresit/dht/lecture_hall"; //lecture_hall
 
 //const char* client_id = "dht_SIC301";
-const char* client_id = "gateway1_lecture_hall";
+//const char* client_id = "gateway1_lecture_hall";
+const char* client_id = "lab_gateway";
 
 //char node_id_String[] = "99";
 
@@ -107,10 +104,10 @@ float calibration_factor = 1.197; //for measuring supply voltage
 
 void setup() {
   // setup serial port
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("____Testing NRF with NodeMCU____");
-//  Serial.print("nrf receiver addr = ");
-//  Serial.print(0x00001F5000LL); //error - serial can't print uint64 - will look at it later
+  //  Serial.print("nrf receiver addr = ");
+  //  Serial.print(0x00001F5000LL); //error - serial can't print uint64 - will look at it later
 
   // setup WiFi
   setup_wifi();
@@ -210,8 +207,8 @@ void reconnect() {
 
 
 /*
-void read_dht_data()
-{
+  void read_dht_data()
+  {
   // READ DATA
   Serial.print("DHT22, \t");
 
@@ -270,15 +267,15 @@ void read_dht_data()
     Serial.println("\n");
   }
 
-}
+  }
 
-float measure_vdd()
-{
+  float measure_vdd()
+  {
 
   float vdd = calibration_factor * ESP.getVcc() / 1000.0;
   //Serial.println(vdd);
   return vdd;
-}
+  }
 */
 
 void loop() {
@@ -287,7 +284,7 @@ void loop() {
   }
   client.loop();
 
-  if(received)
+  if (received)
   {
     Serial.println(result);
     client.publish(mqtt_topic, result);

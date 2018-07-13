@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:pro",
+    "configuration": "cpu=16MHzatmega328",
+    "port": "/dev/ttyUSB2",
+    "sketch": "I2C_sensor_modular_var_freq.ino"
+}
