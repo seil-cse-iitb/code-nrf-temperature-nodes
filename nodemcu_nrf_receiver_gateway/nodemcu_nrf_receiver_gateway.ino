@@ -35,8 +35,9 @@ RF24 radio(pinCE, pinCSN);
 const uint64_t wAddress_lab = 0x00001E5000LL;  // lab nrf address           // Radio pipe addresses for the 2 nodes to communicate.
 const uint64_t wAddress_SIC305 = 0x00001F5000LL;   //SIC305 nrf address
 const uint64_t wAddress_lecture_hall = 0x00001E6000LL; //lecture_hall nrf address
+const uint64_t wAddress_SIC204 = 0x00001EC204LL;  // SIC 204 nrf address
 
-const uint64_t rAddress = wAddress_lab;
+const uint64_t rAddress = wAddress_SIC204;
 
 bool received = false;
 //char temperatureString[6];
@@ -50,10 +51,10 @@ char result[32];
 //DHT dht(DHTPIN, DHTTYPE); //// Initialize DHT sensor for normal 16mhz Arduino
 //#define DHT22_PIN D4
 // Static IP details...
-IPAddress ip(192, 168, 1, 179);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress subnet(255, 255, 255, 0);
-IPAddress DNS(192, 168, 1, 1);
+// IPAddress ip(192, 168, 1, 179);
+// IPAddress gateway(192, 168, 1, 1);
+// IPAddress subnet(255, 255, 255, 0);
+// IPAddress DNS(192, 168, 1, 1);
 
 struct
 {
@@ -84,12 +85,12 @@ const char* mqtt_password = "<MQTT_BROKER_PASSWORD>";
 // const char* mqtt_topic = "data/kresit/dht/SEIL"; //test
 //const char* mqtt_topic = "nodemcu/kresit/dht/FCK"; //production
 //const char* mqtt_topic = "nodemcu/kresit/dht/sic305"; //classroom
-const char* mqtt_topic = "nodemcu/kresit/dht/SEIL"; //LAB
-//const char* mqtt_topic = "nodemcu/kresit/dht/lecture_hall"; //lecture_hall
+// const char* mqtt_topic = "nodemcu/kresit/dht/lecture_hall"; //lecture_hall
+const char* mqtt_topic = "nodemcu/kresit/dht/temp_k_204";
 
 //const char* client_id = "dht_SIC301";
 //const char* client_id = "gateway1_lecture_hall";
-const char* client_id = "lab_gateway";
+const char* client_id = "204_gateway";
 
 //char node_id_String[] = "99";
 
@@ -147,7 +148,7 @@ void setup_wifi() {
   Serial.print("Connecting to ");
   Serial.println(ssid);
   //Serial.println(password);
-  WiFi.config(ip, gateway, subnet, DNS);
+  // WiFi.config(ip, gateway, subnet, DNS);
   //  delay(100);
   WiFi.begin(ssid, password);
 

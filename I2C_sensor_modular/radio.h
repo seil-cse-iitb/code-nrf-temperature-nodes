@@ -8,9 +8,10 @@ RF24 radio(pinCE, pinCSN);
 
 //const uint64_t wAddress = 0x00001E5000LL;  // lab        // Radio pipe addresses for the 2 nodes to communicate.
 //const uint64_t wAddress = 0x00001F5000LL;   //classroom
-const uint64_t wAddress = 0x00001E6000LL;   // Server room
+// const uint64_t wAddress = 0x00001E6000LL;   // Server room
+const uint64_t wAddress = 0x00001EC204LL; // SIC 204 nrf address
 
-char node_id[] = "24";
+char node_id[] = "5";
 char tempString[6];
 char humidityString[6];
 char vccString[5];
