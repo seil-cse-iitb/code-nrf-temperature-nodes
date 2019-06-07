@@ -37,7 +37,7 @@ const uint64_t wAddress_SIC305 = 0x00001F5000LL;   //SIC305 nrf address
 const uint64_t wAddress_lecture_hall = 0x00001E6000LL; //lecture_hall nrf address
 const uint64_t wAddress_SIC204 = 0x00001EC204LL;  // SIC 204 nrf address
 
-const uint64_t rAddress = wAddress_SIC204;
+const uint64_t rAddress = wAddress_lab;
 
 bool received = false;
 //char temperatureString[6];
@@ -70,7 +70,7 @@ struct
 
 //#define SLEEP_DELAY_IN_SECONDS  600
 #define SLEEP_DELAY_IN_SECONDS  10  // value in secs
-#define ONE_WIRE_BUS            D4      // DS18B20 pin
+#define ONE_WIRE_BUS D4      // DS18B20 pin
 
 //const char* ssid = "SEIL_SCC";
 const char* ssid = "SEIL";
@@ -82,15 +82,15 @@ const char* mqtt_server = "10.129.149.9";  //production machine
 const char* mqtt_username = "<MQTT_BROKER_USERNAME>";
 const char* mqtt_password = "<MQTT_BROKER_PASSWORD>";
 
-// const char* mqtt_topic = "data/kresit/dht/SEIL"; //test
+const char* mqtt_topic = "data/kresit/dht/SEIL"; //test
 //const char* mqtt_topic = "nodemcu/kresit/dht/FCK"; //production
 //const char* mqtt_topic = "nodemcu/kresit/dht/sic305"; //classroom
 // const char* mqtt_topic = "nodemcu/kresit/dht/lecture_hall"; //lecture_hall
-const char* mqtt_topic = "nodemcu/kresit/dht/temp_k_204";
+//const char* mqtt_topic = "nodemcu/kresit/dht/temp_k_204";
 
 //const char* client_id = "dht_SIC301";
 //const char* client_id = "gateway1_lecture_hall";
-const char* client_id = "204_gateway";
+const char* client_id = "213_gateway";
 
 //char node_id_String[] = "99";
 

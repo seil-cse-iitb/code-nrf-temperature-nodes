@@ -50,7 +50,7 @@
 #define _DELAY(x)
 #endif
 
-#define DEFAULT_PWR_DWN_DELAY_SEC 60 // Delay for sleep mode in seconds( Min delay is 2 Seconds)
+#define DEFAULT_PWR_DWN_DELAY_SEC 6 // Delay for sleep mode in seconds( Min delay is 2 Seconds)
 
 byte delayCount = 0;
 
@@ -190,7 +190,7 @@ void loop()
 
   if (data.battery_voltage > 2.6)
   {
-    if ((curr_temp > prev_temp + 0.5) || (curr_temp < prev_temp - 0.5) || (delayCount >= 10))
+//    if ((curr_temp > prev_temp + 0.5) || (curr_temp < prev_temp - 0.5) || (delayCount >= 10))
     {
       radioWrite();
       _SER_PRINTLN("------------------------------------------");

@@ -10,7 +10,7 @@ const uint64_t wAddress = 0x00001E5000LL;  // lab        // Radio pipe addresses
 //const uint64_t wAddress = 0x00001F5000LL;   //classroom
 // const uint64_t wAddress = 0x00001E6000LL;   // Server room
 
-char node_id[] = "7";
+char node_id[] = "10";
 char tempString[6];
 char humidityString[6];
 char vccString[5];

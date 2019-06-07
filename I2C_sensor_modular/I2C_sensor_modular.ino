@@ -7,7 +7,7 @@
 #include "HDC1080.h"
 
 // Serial print compiler directive
-//#define SERIAL_PRINT 1
+//#define SERIAL_PRINT 1 // Comment this to remove the Serial.print from the code(Do it once the program is finalize)
 #ifdef SERIAL_PRINT
 #define _SER_BEGIN(x) Serial.begin(x)
 #define _SER_PRINT(x) Serial.print(x)
@@ -23,6 +23,15 @@
 #define PWR_DWN_DELAY_SEC 60 // Delay for sleep mode in seconds( Min delay is 2 Seconds)
 
 int sensorAddress[] = {72, 64};
+
+enum sensorEnum {
+  ADT7420,
+  HDC1080,
+  unknown
+};
+sensorEnum sensor = unknown;
+
+byte error;
 
 int radioWrite()
 {
@@ -42,16 +51,6 @@ int radioWrite()
     delay(20);
   }
 }
-
-enum sensorEnum {
-  ADT7420,
-  HDC1080,
-  unknown
-};
-
-sensorEnum sensor = unknown;
-
-byte error;
 
 void delayWDT(byte timer)
 {

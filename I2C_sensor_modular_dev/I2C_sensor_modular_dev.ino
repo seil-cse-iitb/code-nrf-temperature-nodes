@@ -21,7 +21,7 @@
 #define _DELAY(x)
 #endif
 
-#define PWR_DWN_DELAY_SEC 60 // Delay for sleep mode in seconds( Min delay is 2 Seconds)
+#define PWR_DWN_DELAY_SEC 6 // Delay for sleep mode in seconds( Min delay is 2 Seconds)
 
 int sensorAddress[] = {72, 64, 90}; // Contains the I2C address of the sensors
 
