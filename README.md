@@ -10,3 +10,6 @@ The folder contains code for both *Sensor Nodes* as well as *Gateway Nodes*.
 
 ## Communication Architecture of Sensor Suite 
 ![Communication Architecture of Sensor Suite](scc_communication_update.png)
+
+## Sensor Node 
+![Power Consumption Comparison](sensor_node_evolution.png)
