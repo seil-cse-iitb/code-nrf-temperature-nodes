@@ -6,4 +6,4 @@ The folder contains code for both *Sensor Nodes* as well as *Gateway Nodes*.
 2. _I2C_sensor_modular_var_freq_ has similar functions as above but the frequency of sensing and sending data can be varied depending the parameter that is getting monitored.
 3. _nodemcu_nrf_reveiver_gateway_ contains the code of the gateway side. The code basically recieves data from different sensors over nRF and then transmits the same data over MQTT. 
 
-* Note: 'radio.h' file contains all the details about communication. It contains nRF addresses for each room, sensor node ID and initial setup for RF communication.
+* Note: 'radio.h' in the sensor folder contains all the details about communication. It contains nRF addresses for each room, sensor node ID and initial setup for RF communication.
