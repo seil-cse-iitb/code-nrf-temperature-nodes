@@ -8,4 +8,4 @@ The folder contains code for both *Sensor Nodes* as well as *Gateway Nodes*.
 
 * Note: 'radio.h' in the sensor folder contains all the details about communication. It contains nRF addresses for each room, sensor node ID and initial setup for RF communication.
 
-![Communication Architecture of Sensor Suite][http://yudhishthira.seil.cse.iitb.ac.in/karanj/code_nrf_temperature_nodes/blob/master/scc_communication_update.png]
+[Communication Architecture of Sensor Suite][http://yudhishthira.seil.cse.iitb.ac.in/karanj/code_nrf_temperature_nodes/blob/master/scc_communication_update.png]
